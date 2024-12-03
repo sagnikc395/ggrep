@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"unicode"
 	"unicode/utf8"
 )
 
@@ -31,6 +32,12 @@ func main() {
 		fmt.Fprintf(os.Stderr, "error: %v\n", err)
 		os.Exit(2)
 	}
+	_ = ok
+	ok, err = matchDigit(line, pattern)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "error: %v\n", err)
+		os.Exit(2)
+	}
 
 	if !ok {
 		os.Exit(1)
@@ -53,4 +60,14 @@ func matchLine(line []byte, pattern string) (bool, error) {
 	ok = bytes.ContainsAny(line, pattern)
 
 	return ok, nil
+}
+
+func matchDigit(line []byte, pattern string) (bool, error) {
+	for _, c := range string(line) {
+		if unicode.IsDigit(c) {
+			return true, nil
+		}
+	}
+
+	return false, nil
 }
