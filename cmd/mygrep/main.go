@@ -32,12 +32,6 @@ func main() {
 		fmt.Fprintf(os.Stderr, "error: %v\n", err)
 		os.Exit(2)
 	}
-	_ = ok
-	ok, err = matchDigit(line, pattern)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "error: %v\n", err)
-		os.Exit(2)
-	}
 
 	if !ok {
 		os.Exit(1)
@@ -51,18 +45,6 @@ func matchLine(line []byte, pattern string) (bool, error) {
 		return false, fmt.Errorf("unsupported pattern: %q", pattern)
 	}
 
-	var ok bool
-
-	// You can use print statements as follows for debugging, they'll be visible when running tests.
-	fmt.Fprintln(os.Stderr, "Logs from your program will appear here!")
-
-	// Uncomment this to pass the first stage
-	ok = bytes.ContainsAny(line, pattern)
-
-	return ok, nil
-}
-
-func matchDigit(line []byte, pattern string) (bool, error) {
 	for _, c := range string(line) {
 		if unicode.IsDigit(c) {
 			return true, nil
@@ -70,4 +52,5 @@ func matchDigit(line []byte, pattern string) (bool, error) {
 	}
 
 	return false, nil
+
 }
